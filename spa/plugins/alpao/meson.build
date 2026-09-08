@@ -125,6 +125,7 @@ if get_option('tests').allowed()
     'spa-alpao-mock',
     alpao_test,
     args: [alpao_mock_lib.full_path(), 'mock'],
+    depends: alpao_mock_lib,
   )
 
   binary_config_option = get_option('alpao-binary-config')
