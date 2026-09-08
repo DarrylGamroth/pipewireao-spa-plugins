@@ -1,0 +1,66 @@
+{
+  "migration_base": "8d2edcf",
+  "monorepo_tag": "monorepo-final-2026-09-08",
+  "repositories": {
+    "core": {
+      "repository": "DarrylGamroth/pipewireao-spa-plugins-core",
+      "visibility": "public",
+      "packages": ["pipewireao-spa-plugins-core", "pipewireao-spa-plugins-dev"]
+    },
+    "fits": {
+      "repository": "DarrylGamroth/pipewireao-spa-plugin-fits",
+      "visibility": "public",
+      "packages": ["pipewireao-spa-plugin-fits"]
+    },
+    "aravis": {
+      "repository": "DarrylGamroth/pipewireao-spa-plugin-aravis",
+      "visibility": "public",
+      "packages": ["pipewireao-spa-plugin-aravis"]
+    },
+    "imagestreamio": {
+      "repository": "DarrylGamroth/pipewireao-spa-plugin-imagestreamio",
+      "visibility": "public",
+      "packages": ["pipewireao-spa-plugin-imagestreamio"]
+    },
+    "alpao": {
+      "repository": "DarrylGamroth/pipewireao-spa-plugin-alpao",
+      "visibility": "private",
+      "packages": ["pipewireao-spa-plugin-alpao"]
+    },
+    "egrabber": {
+      "repository": "DarrylGamroth/pipewireao-spa-plugin-egrabber",
+      "visibility": "private",
+      "packages": ["pipewireao-spa-plugin-egrabber"]
+    },
+    "bgapi2": {
+      "repository": "DarrylGamroth/pipewireao-spa-plugin-bgapi2",
+      "visibility": "private",
+      "packages": ["pipewireao-spa-plugin-bgapi2"]
+    },
+    "edtpdv": {
+      "repository": "DarrylGamroth/pipewireao-spa-plugin-edtpdv",
+      "visibility": "private",
+      "packages": ["pipewireao-spa-plugin-edtpdv"]
+    },
+    "flisdk": {
+      "repository": "DarrylGamroth/pipewireao-spa-plugin-flisdk",
+      "visibility": "private",
+      "packages": ["pipewireao-spa-plugin-flisdk"]
+    },
+    "andor3": {
+      "repository": "DarrylGamroth/pipewireao-spa-plugin-andor3",
+      "visibility": "private",
+      "packages": ["pipewireao-spa-plugin-andor3"]
+    },
+    "hamamatsu": {
+      "repository": "DarrylGamroth/pipewireao-spa-plugin-hamamatsu",
+      "visibility": "private",
+      "packages": ["pipewireao-spa-plugin-hamamatsu"]
+    },
+    "hermes": {
+      "repository": "DarrylGamroth/pipewireao-spa-plugin-hermes",
+      "visibility": "private",
+      "packages": ["pipewireao-spa-plugin-hermes"]
+    }
+  }
+}

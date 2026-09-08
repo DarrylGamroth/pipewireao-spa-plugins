@@ -1,8 +1,8 @@
 # Debian and Ubuntu packages
 
-This repository produces one binary package for each independently installable
-integration. It remains one source repository and uses one upstream version for
-all packages.
+The component repositories produce one binary package for each independently
+installable integration. The core repository also produces the shared
+development-header package.
 
 | Component | Binary package | Optional dependency boundary |
 | --- | --- | --- |
@@ -51,7 +51,8 @@ redistributable.
 
 ## Package builder
 
-List the available components:
+Run the builder from a component repository. List that repository's available
+components with:
 
 ```console
 python3 packaging/deb/build.py --list-components
@@ -98,10 +99,10 @@ resolved by `dpkg-shlibdeps`.
 
 ## Container package targets
 
-[`Dockerfile.package`](../packaging/containers/Dockerfile.package) builds a
-single component and exports only its `.deb`. The separately named
-`pipewire-rs` build context satisfies the repository's current Rust path
-dependency without copying that source here or fetching an unpinned revision.
+Each component repository's `packaging/containers/Dockerfile.package` builds a
+single component and exports only its `.deb`. In the core repository, the
+separately named `pipewire-rs` build context satisfies the current Rust path
+dependency without copying that source or fetching an unpinned revision.
 
 The maintained distribution targets are Debian 13 and Ubuntu 26.04 LTS:
 
@@ -163,9 +164,9 @@ trusted infrastructure and must not be published.
 
 ## Deployment image targets
 
-[`Dockerfile.deploy`](../packaging/containers/Dockerfile.deploy) installs the
-resulting package and resolves its declared dependencies from APT. The Bake
-targets compose the package build directly into a runtime image:
+Each component repository's `packaging/containers/Dockerfile.deploy` installs
+the resulting package and resolves its declared dependencies from APT. The
+Bake targets compose the package build directly into a runtime image:
 
 ```console
 docker buildx bake debian-13-deploy
