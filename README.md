@@ -1,37 +1,63 @@
-# PipeWireAO SPA plugin repositories
+# PipeWireAO SPA plugins
 
-This repository is the architecture, release, and migration index for the
-PipeWireAO SPA plugin family. Component source moved to independently buildable
-repositories on 2026-09-08.
+The PipeWireAO SPA plugin family is split into independently buildable source
+repositories. A deployment includes the core repository and only the device or
+transport integrations it needs. This keeps unrelated SDKs out of the build
+context and lets proprietary integrations remain private.
 
-The final combined source tree is retained at the annotated tag
-`monorepo-final-2026-09-08`. Each component repository preserves history through
-umbrella commit `8d2edcf` and adds one split commit containing its standalone
-build and packaging configuration.
+The repository boundary does not prescribe a packaging format. Each component
+can be built and staged with Meson, copied into a container or system image, or
+turned into a native operating-system package.
 
-## Repositories
+## Components
 
-| Component | Source repository | Visibility | Binary packages |
+| Component | Purpose | External dependency | Visibility |
 | --- | --- | --- | --- |
-| Core | [`pipewireao-spa-plugins-core`](https://github.com/DarrylGamroth/pipewireao-spa-plugins-core) | Public | `pipewireao-spa-plugins-core`, `pipewireao-spa-plugins-dev` |
-| FITS | [`pipewireao-spa-plugin-fits`](https://github.com/DarrylGamroth/pipewireao-spa-plugin-fits) | Public | `pipewireao-spa-plugin-fits` |
-| Aravis | [`pipewireao-spa-plugin-aravis`](https://github.com/DarrylGamroth/pipewireao-spa-plugin-aravis) | Public | `pipewireao-spa-plugin-aravis` |
-| ImageStreamIO | [`pipewireao-spa-plugin-imagestreamio`](https://github.com/DarrylGamroth/pipewireao-spa-plugin-imagestreamio) | Public | `pipewireao-spa-plugin-imagestreamio` |
-| ALPAO | [`pipewireao-spa-plugin-alpao`](https://github.com/DarrylGamroth/pipewireao-spa-plugin-alpao) | Private | `pipewireao-spa-plugin-alpao` |
-| Euresys eGrabber | [`pipewireao-spa-plugin-egrabber`](https://github.com/DarrylGamroth/pipewireao-spa-plugin-egrabber) | Private | `pipewireao-spa-plugin-egrabber` |
-| Baumer GAPI2 | [`pipewireao-spa-plugin-bgapi2`](https://github.com/DarrylGamroth/pipewireao-spa-plugin-bgapi2) | Private | `pipewireao-spa-plugin-bgapi2` |
-| EDT PDV | [`pipewireao-spa-plugin-edtpdv`](https://github.com/DarrylGamroth/pipewireao-spa-plugin-edtpdv) | Private | `pipewireao-spa-plugin-edtpdv` |
-| First Light Imaging FliSdk | [`pipewireao-spa-plugin-flisdk`](https://github.com/DarrylGamroth/pipewireao-spa-plugin-flisdk) | Private | `pipewireao-spa-plugin-flisdk` |
-| Andor SDK3 | [`pipewireao-spa-plugin-andor3`](https://github.com/DarrylGamroth/pipewireao-spa-plugin-andor3) | Private | `pipewireao-spa-plugin-andor3` |
-| Hamamatsu DCAM-API | [`pipewireao-spa-plugin-hamamatsu`](https://github.com/DarrylGamroth/pipewireao-spa-plugin-hamamatsu) | Private | `pipewireao-spa-plugin-hamamatsu` |
-| MPD HERMES | [`pipewireao-spa-plugin-hermes`](https://github.com/DarrylGamroth/pipewireao-spa-plugin-hermes) | Private | `pipewireao-spa-plugin-hermes` |
+| [`core`](https://github.com/DarrylGamroth/pipewireao-spa-plugins-core) | SDK-independent plugins, transforms, decoders, queue module, and public development headers | None | Public |
+| [`fits`](https://github.com/DarrylGamroth/pipewireao-spa-plugin-fits) | FITS sequence and simulated camera source | CFITSIO | Public |
+| [`aravis`](https://github.com/DarrylGamroth/pipewireao-spa-plugin-aravis) | Experimental Aravis camera source | Aravis | Public |
+| [`imagestreamio`](https://github.com/DarrylGamroth/pipewireao-spa-plugin-imagestreamio) | ImageStreamIO shared-memory bridge | ImageStreamIO | Public |
+| [`alpao`](https://github.com/DarrylGamroth/pipewireao-spa-plugin-alpao) | ALPAO FGN command-normalization operator and deformable-mirror sink | ALPAO ASDK for the sink | Private |
+| [`egrabber`](https://github.com/DarrylGamroth/pipewireao-spa-plugin-egrabber) | Euresys eGrabber camera integration | Euresys eGrabber SDK | Private |
+| [`bgapi2`](https://github.com/DarrylGamroth/pipewireao-spa-plugin-bgapi2) | Baumer GAPI2 camera integration | Baumer GAPI SDK | Private |
+| [`edtpdv`](https://github.com/DarrylGamroth/pipewireao-spa-plugin-edtpdv) | EDT PDV camera integration | EDT PDV SDK | Private |
+| [`flisdk`](https://github.com/DarrylGamroth/pipewireao-spa-plugin-flisdk) | First Light Imaging camera integration | FliSdk; optional GenICam CLProtocol support | Private |
+| [`andor3`](https://github.com/DarrylGamroth/pipewireao-spa-plugin-andor3) | Andor SDK3 camera integration | Andor SDK3 | Private |
+| [`hamamatsu`](https://github.com/DarrylGamroth/pipewireao-spa-plugin-hamamatsu) | Hamamatsu DCAM camera integration | DCAM-API | Private |
+| [`hermes`](https://github.com/DarrylGamroth/pipewireao-spa-plugin-hermes) | MPD HERMES FrontPanel camera source | HERMES and FrontPanel SDKs | Private |
 
-The development headers are a binary output of the core source repository; they
-do not have a separate GitHub repository. The ALPAO repository owns both the FGN
-command-normalization operator and the ASDK-backed deformable-mirror sink. The
-SDK-independent HERMES decoder remains in core.
+The common development headers are an output of `core`, not a separate source
+repository. The SDK-independent HERMES decoder also remains in `core`; the
+private HERMES repository contains only the SDK-backed source.
 
-Machine-readable repository and package metadata is in
-[`repositories.json`](repositories.json). Packaging conventions and the private
-APT boundary remain documented in
-[`docs/debian-packaging.md`](docs/debian-packaging.md).
+Machine-readable repository metadata is in
+[`repositories.json`](repositories.json).
+
+## Compose a deployment
+
+Build `core` first, then build each selected integration against its installed
+headers and PipeWireAO. Every component README documents its feature option and
+external SDK requirements.
+
+A normal Meson install can be staged without modifying the host:
+
+```console
+meson setup build --prefix=/usr [component-specific options]
+meson compile -C build
+DESTDIR="$PWD/stage" meson install -C build
+```
+
+The resulting `stage` tree can be copied into a target root filesystem,
+container image, appliance build, or package assembly step.
+
+Each source repository also contains Docker Bake targets for Debian- and
+Ubuntu-based deployment images. Separate targets export `.deb` files when that
+format is useful. Those recipes are deployment conveniences; they are not the
+reason for, or a constraint on, the repository split. Debian-specific details
+are documented in [`docs/debian-packaging.md`](docs/debian-packaging.md).
+
+## History
+
+The final combined source tree is preserved by the
+`monorepo-final-2026-09-08` tag. The component repositories retain the earlier
+history through umbrella commit `8d2edcf`.
